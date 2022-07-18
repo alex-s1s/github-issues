@@ -8,11 +8,7 @@ const RoutesProject = () => {
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Main />} />
-        <Route
-          exact
-          path="/repositorio/:repositorio"
-          element={<Repository />}
-        />
+        <Route path="/repositorio/:repositorio" element={<Repository />} />
       </Routes>
     </BrowserRouter>
   );
