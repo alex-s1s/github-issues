@@ -28,7 +28,6 @@ const useMain = () => {
   const handleSubmit = useCallback((e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setLoading(true)
-    console.log(repository, "isdnd")
 
     async function submit() {
       if (newRepo === '') {
