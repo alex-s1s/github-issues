@@ -19,7 +19,6 @@ const useMain = () => {
     }
   }, []);
 
-
   // Save in localStorage
   useEffect(() => {
     localStorage.setItem('repos', JSON.stringify(repository));
