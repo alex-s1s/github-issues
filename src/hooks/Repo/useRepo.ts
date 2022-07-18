@@ -10,6 +10,7 @@ const useRepo = () => {
     const [repository, setRepository] = useState({});
     const [issues, setIssues] = useState<Api[]>([]);
     const [loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
 
     const { repositorio } = useParams();
 
@@ -32,10 +33,33 @@ const useRepo = () => {
         load();
     }, [repositorio]);
 
+    useEffect(() => {
+
+        async function loadIssue() {
+            const reponse = await api.get(`/repos/${repositorio}/issues`, {
+                params: {
+                    state: 'open',
+                    page: page,
+                    per_page: 5,
+                }
+            })
+
+            setIssues(reponse?.data)
+        }
+
+        loadIssue()
+    }, [page, repositorio])
+
+    function handlePage(action: string) {
+        setPage(action === 'back' ? page - 1 : page + 1)
+    }
+
     return {
+        handlePage,
         repository,
         loading,
-        issues
+        issues,
+        page,
     };
 };
 

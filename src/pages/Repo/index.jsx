@@ -1,11 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect } from "react";
-import { Container, Owner, Loading, BackButton, IssuesList } from "./styles";
+import React from "react";
+import {
+  Container,
+  Owner,
+  Loading,
+  BackButton,
+  IssuesList,
+  PageAction,
+} from "./styles";
 import { FaArrowLeft } from "react-icons/fa";
 import useRepo from "../../hooks/Repo/useRepo.ts";
 
 function Repository({ match }) {
-  const { repository, loading, issues } = useRepo();
+  const { repository, loading, issues, handlePage, page } = useRepo();
   if (loading) {
     return (
       <Loading>
@@ -46,6 +53,18 @@ function Repository({ match }) {
             );
           })}
         </IssuesList>
+        <PageAction>
+          <button
+            type="button"
+            onClick={() => handlePage("back")}
+            disabled={page < 2}
+          >
+            Voltar
+          </button>
+          <button type="button" onClick={() => handlePage("next")}>
+            Próxima
+          </button>
+        </PageAction>
       </Container>
     </div>
   );
