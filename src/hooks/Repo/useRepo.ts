@@ -11,6 +11,7 @@ const useRepo = () => {
     const [issues, setIssues] = useState<Api[]>([]);
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
+    const [type, setType] = useState('');
 
     const { repositorio } = useParams();
 
@@ -20,7 +21,7 @@ const useRepo = () => {
                 api.get(`/repos/${repositorio}`),
                 api.get(`/repos/${repositorio}/issues`, {
                     params: {
-                        state: "open",
+                        state: type || 'open',
                         per_page: 5,
                     },
                 }),
@@ -31,10 +32,9 @@ const useRepo = () => {
         }
 
         load();
-    }, [repositorio]);
+    }, [repositorio, type]);
 
     useEffect(() => {
-
         async function loadIssue() {
             const reponse = await api.get(`/repos/${repositorio}/issues`, {
                 params: {
@@ -56,6 +56,7 @@ const useRepo = () => {
 
     return {
         handlePage,
+        setType,
         repository,
         loading,
         issues,

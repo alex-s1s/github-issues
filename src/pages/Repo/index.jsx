@@ -7,12 +7,19 @@ import {
   BackButton,
   IssuesList,
   PageAction,
+  Filter,
 } from "./styles";
 import { FaArrowLeft } from "react-icons/fa";
 import useRepo from "../../hooks/Repo/useRepo.ts";
 
-function Repository({ match }) {
-  const { repository, loading, issues, handlePage, page } = useRepo();
+const status = [
+  { value: "open", label: "Abertas" },
+  { value: "closed", label: "Fechadas" },
+  { value: "all", label: "Todas" },
+];
+
+function Repository() {
+  const { repository, loading, issues, handlePage, page, setType } = useRepo();
   if (loading) {
     return (
       <Loading>
@@ -26,6 +33,7 @@ function Repository({ match }) {
         <BackButton to="/">
           <FaArrowLeft color="#000" size={30} />
         </BackButton>
+
         <Owner>
           <img src={repository.owner.avatar_url} alt={repository.owner.login} />
           <h1>{repository.name}</h1>
@@ -33,6 +41,22 @@ function Repository({ match }) {
         </Owner>
 
         <IssuesList>
+          <Filter>
+            <p>Filtrar por: </p>
+            <select
+              name="status"
+              id="status"
+              onChange={(e) => setType(e.target.value)}
+            >
+              {status.map((value) => {
+                return (
+                  <option key={value.value} value={value.value}>
+                    {value.label}
+                  </option>
+                );
+              })}
+            </select>
+          </Filter>
           {issues.map((issue) => {
             return (
               <li key={String(issue.id)}>
@@ -40,7 +64,9 @@ function Repository({ match }) {
 
                 <div>
                   <strong>
-                    <a href={issue.html_url}>{issue.title}</a>
+                    <a href={issue.html_url} target="_blank" rel="noreferrer">
+                      {issue.title}
+                    </a>
 
                     {issue.labels.map((label) => {
                       return <span key={String(label.id)}>{label.name}</span>;

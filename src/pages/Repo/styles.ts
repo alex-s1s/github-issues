@@ -129,3 +129,21 @@ export const PageAction = styled.div`
         }
     }
 `
+
+
+export const Filter = styled.div`
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    p{
+        margin-right: 10px;
+    }
+
+    select{
+        width: 100px;
+        border-radius: 0;
+        height: 20px;
+    }
+    
+`
